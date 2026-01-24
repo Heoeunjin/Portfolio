@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "홍은진 · Frontend Developer",
+  title: "허은진 · Frontend Developer",
   description:
     "실제로 굴러가는 서비스와 관리자 페이지를 만드는 프론트엔드 개발자 포트폴리오",
 };
