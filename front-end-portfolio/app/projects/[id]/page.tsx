@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/common/PageHeader";
 import { Section } from "@/components/common/Section";
@@ -23,7 +24,24 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
   return (
     <div>
-      <PageHeader title={project.title} subtitle={project.shortDescription} />
+      <div className="mb-8">
+        {project.iconSrc && (
+          <div className="mb-6 inline-block">
+            <div className="relative h-20 w-20 overflow-hidden rounded-2xl shadow-lg shadow-slate-300/50">
+              <Image
+                src={project.iconSrc}
+                alt={`${project.title} 아이콘`}
+                fill
+                sizes="80px"
+                className="object-contain"
+                quality={100}
+                priority
+              />
+            </div>
+          </div>
+        )}
+        <PageHeader title={project.title} subtitle={project.shortDescription} />
+      </div>
 
       <Section>
         {/* 링크 버튼들 */}

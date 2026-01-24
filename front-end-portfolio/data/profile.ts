@@ -40,6 +40,7 @@ export interface Project {
   type: ProjectType;
   title: string;
   shortDescription: string;
+  iconSrc?: string; // 상세 페이지 상단 아이콘 (public 경로)
   hook: string;
   hookSubtitle?: string; // hook 아래 추가 설명
   badges: string[]; // 프로젝트 뱃지들
@@ -71,6 +72,7 @@ export const projects: Project[] = [
     id: "kma-marathon-renewal",
     type: "real-service",
     title: "전국마라톤협회(KMA) 웹사이트 리뉴얼",
+    iconSrc: "/kma/KmaIcon.jpeg",
     hook: "❝ 관리자에서 대회 등록 → 대회 사이트가 자동 생성되는 구조 ❞",
     hookSubtitle: "실제 운영 중이며, 관리자·운영자가 매일 사용하는 서비스",
     badges: ["#실운영", "#관리자페이지", "#Next.js", "#디자인100%"],
@@ -138,6 +140,7 @@ export const projects: Project[] = [
     id: "sandwich-portfolio-platform",
     type: "platform",
     title: "샌드위치 – 개발자 포트폴리오 플랫폼 (졸업작품)",
+    iconSrc: "/sandwich/sandwich.png",
     hook: "❝ 노션·PPT 대신, 실제로 배포되는 개발자 포트폴리오 ❞",
     hookSubtitle: "개발자 포트폴리오를 '문서'가 아닌 '동작하는 웹서비스'로 전시하는 플랫폼",
     badges: ["#졸업작품", "#플랫폼기획", "#Frontend전반", "#React"],
@@ -204,6 +207,7 @@ export const projects: Project[] = [
     id: "ai-face-asymmetry",
     type: "ai",
     title: "AI 얼굴 비대칭 분석 웹사이트",
+    iconSrc: "/FAIcial/FAIcial.png",
     hook: "❝ 사용자가 '결과를 이해하게 만드는' AI 분석 결과 시각화 UI ❞",
     badges: ["#Frontend단독", "#이미지업로드", "#결과시각화", "#UX중심"],
     shortDescription:
