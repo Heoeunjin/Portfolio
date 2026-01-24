@@ -28,6 +28,20 @@ export function ProjectCard({ project, showPeriod = false }: ProjectCardProps) {
 
   const style = getProjectStyle();
 
+  // 프로젝트별 링크 텍스트
+  const getLinkText = () => {
+    switch (project.id) {
+      case "ai-face-asymmetry":
+        return "분석 흐름 & UI 설계 보기 →";
+      case "sandwich-portfolio-platform":
+        return "플랫폼 구조 & 구현 과정 →";
+      case "kma-marathon-renewal":
+        return "실제 운영 구조 자세히 보기 →";
+      default:
+        return "이 프로젝트에서 내가 한 일 →";
+    }
+  };
+
   return (
     <Link href={`/projects/${project.id}`}>
       <article
@@ -103,7 +117,7 @@ export function ProjectCard({ project, showPeriod = false }: ProjectCardProps) {
           <p
             className={`text-xs font-medium ${style.hookColor} transition-all group-hover:translate-x-1`}
           >
-            이 프로젝트에서 내가 한 일 →
+            {getLinkText()}
           </p>
         </div>
       </article>
