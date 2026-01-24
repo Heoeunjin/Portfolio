@@ -15,12 +15,28 @@ export default function ProjectsPage() {
         <div className="space-y-8">
           {projects.map((project) => (
             <Link key={project.id} href={`/projects/${project.id}`}>
-              <article className="flex gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+              <article
+                className={`flex gap-4 rounded-xl border p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
+                  project.isRealService
+                    ? "border-sky-300 bg-gradient-to-br from-sky-50 to-indigo-50"
+                    : "border-slate-200 bg-white"
+                }`}
+              >
                 <div className="w-1 rounded-full bg-sky-400" />
                 <div className="flex-1">
-                  <p className="mb-2 text-xs font-semibold text-sky-600">
+                  {project.isRealService && (
+                    <div className="mb-2 inline-block rounded-full bg-sky-600 px-3 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
+                      Real Service
+                    </div>
+                  )}
+                  <p className="mb-1 text-xs font-semibold text-sky-600">
                     {project.hook}
                   </p>
+                  {project.hookSubtitle && (
+                    <p className="mb-3 text-xs text-slate-600">
+                      {project.hookSubtitle}
+                    </p>
+                  )}
                   <header className="mb-3 space-y-1">
                     <h2 className="text-base font-semibold text-slate-900">
                       {project.title}
@@ -30,13 +46,21 @@ export default function ProjectsPage() {
                       {project.period ? ` · ${project.period}` : null}
                     </p>
                   </header>
-
-                  <p className="mb-2 text-sm text-slate-700">
+                  <p className="mb-3 text-sm text-slate-700">
                     {project.shortDescription}
                   </p>
-
-                  <p className="mt-2 text-xs font-medium text-sky-600">
-                    상세 보기 →
+                  <div className="mb-3 flex flex-wrap gap-1.5">
+                    {project.badges.map((badge) => (
+                      <span
+                        key={badge}
+                        className="rounded-full border border-slate-300 bg-white/80 px-2.5 py-0.5 text-[10px] text-slate-600"
+                      >
+                        {badge}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-xs font-medium text-sky-600">
+                    구조 & 구현 방식 보기 →
                   </p>
                 </div>
               </article>

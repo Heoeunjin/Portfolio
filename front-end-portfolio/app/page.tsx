@@ -12,7 +12,7 @@ export default function Home() {
         <div className="flex flex-1 items-center gap-4">
           <div className="relative h-28 w-28 overflow-hidden rounded-full border border-white/60 bg-white/40 shadow-md">
             <Image
-              src="/profile.jpg"
+              src="/profile.jpeg"
               alt="허은진 프로필 사진"
               fill
               sizes="112px"
@@ -74,24 +74,50 @@ export default function Home() {
         <div className="space-y-8">
           {featuredProjects.map((project) => (
             <Link key={project.id} href={`/projects/${project.id}`}>
-              <article className="flex gap-4 rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+              <article
+                className={`flex gap-4 rounded-xl border p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${
+                  project.isRealService
+                    ? "border-sky-300 bg-gradient-to-br from-sky-50 to-indigo-50"
+                    : "border-slate-200 bg-white"
+                }`}
+              >
                 <div className="w-1 rounded-full bg-sky-400" />
                 <div className="flex-1">
-                  <p className="mb-2 text-xs font-semibold text-sky-600">
+                  {project.isRealService && (
+                    <div className="mb-2 inline-block rounded-full bg-sky-600 px-3 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
+                      Real Service
+                    </div>
+                  )}
+                  <p className="mb-1 text-xs font-semibold text-sky-600">
                     {project.hook}
                   </p>
-                <header className="mb-3 space-y-1">
-                  <h2 className="text-base font-semibold text-slate-900">
-                    {project.title}
-                  </h2>
-                  <p className="text-xs text-slate-500">{project.role}</p>
-                </header>
-                <p className="text-sm text-slate-700">
-                  {project.shortDescription}
-                </p>
-                <p className="mt-3 text-xs font-medium text-sky-600">
-                  자세히 보기 →
-                </p>
+                  {project.hookSubtitle && (
+                    <p className="mb-3 text-xs text-slate-600">
+                      {project.hookSubtitle}
+                    </p>
+                  )}
+                  <header className="mb-3 space-y-1">
+                    <h2 className="text-base font-semibold text-slate-900">
+                      {project.title}
+                    </h2>
+                    <p className="text-xs text-slate-500">{project.role}</p>
+                  </header>
+                  <p className="mb-3 text-sm text-slate-700">
+                    {project.shortDescription}
+                  </p>
+                  <div className="mb-3 flex flex-wrap gap-1.5">
+                    {project.badges.map((badge) => (
+                      <span
+                        key={badge}
+                        className="rounded-full border border-slate-300 bg-white/80 px-2.5 py-0.5 text-[10px] text-slate-600"
+                      >
+                        {badge}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-xs font-medium text-sky-600">
+                    이 프로젝트에서 내가 한 일 →
+                  </p>
                 </div>
               </article>
             </Link>
