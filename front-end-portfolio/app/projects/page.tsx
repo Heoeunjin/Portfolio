@@ -12,6 +12,18 @@ export default function ProjectsPage() {
       />
 
       <Section>
+        {/* 프로젝트 섹션 상단 Divider */}
+        <div className="relative mb-8 h-px overflow-hidden">
+          <div
+            className="absolute inset-0 opacity-30 blur-sm"
+            style={{
+              backgroundImage: "url('/gradient.png')",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+        </div>
         <div className="space-y-8">
           {projects.map((project) => (
             <Link key={project.id} href={`/projects/${project.id}`}>
@@ -25,8 +37,18 @@ export default function ProjectsPage() {
                 <div className="w-1 rounded-full bg-sky-400" />
                 <div className="flex-1">
                   {project.isRealService && (
-                    <div className="mb-2 inline-block rounded-full bg-sky-600 px-3 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
-                      Real Service
+                    <div className="relative mb-2 inline-block overflow-hidden rounded-full bg-sky-600 px-3 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white">
+                      {/* REAL SERVICE 뱃지 뒤 그레디언트 */}
+                      <div
+                        className="pointer-events-none absolute inset-0 opacity-20 mix-blend-overlay"
+                        style={{
+                          backgroundImage: "url('/gradient.png')",
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      />
+                      <span className="relative z-10">Real Service</span>
                     </div>
                   )}
                   <p className="mb-1 text-xs font-semibold text-sky-600">
@@ -41,10 +63,18 @@ export default function ProjectsPage() {
                     <h2 className="text-base font-semibold text-slate-900">
                       {project.title}
                     </h2>
-                    <p className="text-xs text-slate-500">
-                      {project.role}
-                      {project.period ? ` · ${project.period}` : null}
-                    </p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs text-slate-500">
+                        {project.role}
+                        {project.period ? ` · ${project.period}` : null}
+                      </p>
+                      {project.award && (
+                        <>
+                          <span className="text-xs text-slate-400">·</span>
+                          <p className="text-xs font-medium text-slate-600">{project.award}</p>
+                        </>
+                      )}
+                    </div>
                   </header>
                   <p className="mb-3 text-sm text-slate-700">
                     {project.shortDescription}

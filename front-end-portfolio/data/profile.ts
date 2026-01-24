@@ -31,6 +31,7 @@ export interface Project {
   hookSubtitle?: string; // hook 아래 추가 설명
   badges: string[]; // 프로젝트 뱃지들
   period?: string;
+  award?: string; // 수상 내역
   role: string;
   liveUrl?: string;
   githubUrl?: string;
@@ -93,6 +94,7 @@ export const projects: Project[] = [
     shortDescription:
       "개발자의 포트폴리오를 정적인 문서가 아닌, 실제 동작하는 웹사이트 형태로 전시할 수 있도록 하는 포트폴리오 플랫폼입니다.",
     period: "2025",
+    award: "경진대회 장려상",
     role: "Frontend 전반 구현",
     liveUrl: "",
     githubUrl: "",
