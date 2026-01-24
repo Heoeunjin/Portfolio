@@ -1,15 +1,21 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/common/PageHeader";
 import { Section } from "@/components/common/Section";
 import { projects } from "@/data/profile";
+import { ProjectOverview } from "@/components/features/projects/ProjectOverview";
+import { ProjectImageSection } from "@/components/features/projects/ProjectImageSection";
+import { ProjectMyRole } from "@/components/features/projects/ProjectMyRole";
+import { ProjectResult } from "@/components/features/projects/ProjectResult";
+import { ProjectTeamInfo } from "@/components/features/projects/ProjectTeamInfo";
+import { ProjectLinks } from "@/components/features/projects/ProjectLinks";
 
 interface ProjectPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-export default function ProjectDetailPage({ params }: ProjectPageProps) {
-  const project = projects.find((p) => p.id === params.id);
+export default async function ProjectDetailPage({ params }: ProjectPageProps) {
+  const { id } = await params;
+  const project = projects.find((p) => p.id === id);
 
   if (!project) {
     return notFound();
@@ -17,101 +23,61 @@ export default function ProjectDetailPage({ params }: ProjectPageProps) {
 
   return (
     <div>
-      <PageHeader
-        title={project.title}
-        subtitle={project.shortDescription}
-      />
+      <PageHeader title={project.title} subtitle={project.shortDescription} />
 
       <Section>
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 text-sm text-slate-600">
-          <div>
-            <p className="font-medium text-slate-900">{project.role}</p>
-            {project.period && (
-              <p className="text-xs text-slate-500">{project.period}</p>
-            )}
-          </div>
-          {(project.liveUrl || project.githubUrl) && (
-            <div className="flex flex-wrap gap-2 text-xs">
-              {project.liveUrl && (
-                <Link
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full border border-sky-200 bg-sky-50 px-3 py-1 font-medium text-sky-700 transition hover:bg-sky-100"
-                >
-                  실제 서비스 보기
-                </Link>
-              )}
-              {project.githubUrl && (
-                <Link
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="rounded-full border border-slate-200 bg-white px-3 py-1 font-medium text-slate-700 transition hover:bg-slate-50"
-                >
-                  GitHub 코드 보기
-                </Link>
-              )}
-            </div>
-          )}
+        {/* 링크 버튼들 */}
+        <div className="mb-8">
+          <ProjectLinks
+            liveUrl={project.liveUrl}
+            githubUrl={project.githubUrl}
+            notionUrl={project.notionUrl}
+          />
         </div>
 
-        <div className="grid gap-4 rounded-xl border border-slate-200 bg-white p-5 md:grid-cols-3">
-          <div>
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Background
-            </h2>
-            <p className="mt-2 text-sm text-slate-700">{project.background}</p>
+        {/* 프로젝트 개요 */}
+        {project.overview && (
+          <div className="mb-8">
+            <ProjectOverview overview={project.overview} />
           </div>
-          <div>
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Problem
-            </h2>
-            <p className="mt-2 text-sm text-slate-700">{project.problem}</p>
-          </div>
-          <div>
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              My Role
-            </h2>
-            <ul className="mt-2 space-y-1 text-sm text-slate-700">
-              {project.myRole.map((item) => (
-                <li key={item}>• {item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        )}
 
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Solution
-            </h2>
-            <ul className="mt-2 space-y-1 text-sm text-slate-700">
-              {project.solution.map((item) => (
-                <li key={item}>• {item}</li>
-              ))}
-            </ul>
+        {/* 핵심 포인트 이미지들 */}
+        {project.images && project.images.length > 0 && (
+          <div className="mb-8">
+            <Section title="핵심 포인트">
+              <ProjectImageSection images={project.images} />
+            </Section>
           </div>
-          <div className="rounded-xl border border-slate-200 bg-white p-5">
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Result & Learnings
-            </h2>
-            <ul className="mt-2 space-y-1 text-sm text-slate-700">
-              {project.result.map((item) => (
-                <li key={item}>• {item}</li>
-              ))}
-              {project.learnings.map((item) => (
-                <li key={item}>• {item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        )}
 
-        <div className="mt-6 rounded-xl border border-slate-200 bg-white p-5">
-          <h2 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+        {/* 내가 한 일 */}
+        {project.myRoleSummary && project.myRoleSummary.length > 0 && (
+          <div className="mb-8">
+            <ProjectMyRole myRole={project.myRoleSummary} />
+          </div>
+        )}
+
+        {/* 결과 / 의미 */}
+        {project.resultSummary && (
+          <div className="mb-8">
+            <ProjectResult result={project.resultSummary} />
+          </div>
+        )}
+
+        {/* 팀 구성 */}
+        {project.teamInfo && project.teamInfo.length > 0 && (
+          <div className="mb-8">
+            <ProjectTeamInfo teamInfo={project.teamInfo} />
+          </div>
+        )}
+
+        {/* Tech Stack */}
+        <div className="rounded-xl border border-slate-200 bg-white p-6">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
             Tech Stack
           </h2>
-          <div className="mt-2 flex flex-wrap gap-2 text-xs text-slate-700">
+          <div className="flex flex-wrap gap-2 text-xs text-slate-700">
             {project.stack.map((tech) => (
               <span
                 key={tech}
@@ -126,4 +92,3 @@ export default function ProjectDetailPage({ params }: ProjectPageProps) {
     </div>
   );
 }
-

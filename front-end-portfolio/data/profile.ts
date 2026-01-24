@@ -22,6 +22,19 @@ export const contactInfo = {
 
 export type ProjectType = "ai" | "platform" | "real-service";
 
+export interface ProjectImage {
+  title: string;
+  description: string;
+  src: string; // 이미지 경로
+  fit?: "contain" | "cover"; // 기본: contain
+  zoom?: number; // cover일 때 확대(예: 1.1)
+}
+
+export interface TeamMember {
+  role: string;
+  count: number;
+}
+
 export interface Project {
   id: string;
   type: ProjectType;
@@ -35,7 +48,15 @@ export interface Project {
   role: string;
   liveUrl?: string;
   githubUrl?: string;
+  notionUrl?: string; // 노션 링크
   isRealService?: boolean; // 실제 운영 중인 서비스 여부
+  // 상세 페이지용 데이터
+  overview?: string; // 프로젝트 개요 (상세 페이지용)
+  images?: ProjectImage[]; // 핵심 포인트 이미지들
+  myRoleSummary?: string[]; // 내가 한 일 요약 (상세 페이지용)
+  resultSummary?: string; // 결과/의미 요약 (상세 페이지용)
+  teamInfo?: TeamMember[]; // 팀 구성 정보
+  // 기존 필드들 (하위 호환성 유지)
   background: string;
   problem: string;
   myRole: string[];
@@ -83,6 +104,35 @@ export const projects: Project[] = [
       "디자인과 개발을 함께 담당하면, UI 시스템을 한 번 정의해두는 것만으로도 전체 작업 속도가 크게 향상된다는 경험을 했습니다.",
     ],
     stack: ["Next.js", "TypeScript", "Tailwind CSS", "상태 관리 라이브러리"],
+    // 상세 페이지용 데이터
+    overview:
+      "실제 운영 중인 협회 메인 사이트와 대회별 사이트, 관리자 페이지까지 디자인부터 프론트엔드 구현을 담당한 프로젝트",
+    images: [
+      {
+        title: "리뉴얼 이전 사이트",
+        description:
+          "정보 위주의 구조로 가독성이 떨어지고, 모바일 환경과 최신 UX에 최적화되어 있지 않은 상태였습니다.",
+        src: "/kma/before.png",
+      },
+      {
+        title: "리뉴얼 이후 사이트",
+        description:
+          "실제 운영 환경을 고려해 정보 구조를 재설계하고, 모바일·데스크톱 모두에서 사용하기 쉬운 UI로 개선했습니다.",
+        src: "/kma/after.jpeg",
+      },
+    ],
+    myRoleSummary: [
+      "메인 사이트 및 대회 사이트 UI/UX 전면 리뉴얼",
+      "관리자 페이지 화면 설계 및 프론트엔드 구현",
+      "대회 등록 시 사이트가 자동 생성되는 구조 구현",
+      "실제 운영자 피드백을 반영해 반복 개선",
+    ],
+    resultSummary:
+      "현재 실제 운영 중인 서비스이며, 관리자와 운영자가 매일 사용하는 화면을 직접 설계·구현했습니다. 단순 퍼블리싱이 아닌, 운영 구조를 이해한 프론트엔드 경험을 쌓았습니다.",
+    teamInfo: [
+      { role: "백엔드", count: 2 },
+      { role: "프론트엔드", count: 3 },
+    ],
   },
   {
     id: "sandwich-portfolio-platform",
@@ -120,6 +170,35 @@ export const projects: Project[] = [
       "‘무엇을 입력하게 할 것인가’를 먼저 정의하면, 이후 화면과 데이터 구조 설계가 자연스럽게 따라온다는 것을 배웠습니다.",
     ],
     stack: ["React", "TypeScript", "CSS-in-JS 또는 스타일 라이브러리"],
+    // 상세 페이지용 데이터
+    overview:
+      "개발자의 포트폴리오를 PPT나 PDF가 아닌, 실제 동작하는 웹 서비스 형태로 전시할 수 있도록 만든 플랫폼입니다.",
+    images: [
+      {
+        title: "메인 페이지",
+        description:
+          "포트폴리오를 '문서'가 아닌 하나의 서비스처럼 보여주는 구조로 설계했습니다.",
+        src: "/projects/sandwich/main.jpg",
+      },
+      {
+        title: "챌린지 페이지",
+        description:
+          "단순 나열이 아닌, 사용자가 참여하고 기록을 남길 수 있는 구조로 콘텐츠 몰입도를 높였습니다.",
+        src: "/projects/sandwich/challenge.jpg",
+      },
+    ],
+    myRoleSummary: [
+      "전체 서비스 화면 흐름 및 UI 구조 설계",
+      "메인, 상세, 챌린지 페이지 프론트엔드 구현",
+      "사용자 행동 흐름을 고려한 컴포넌트 분리",
+    ],
+    resultSummary:
+      "졸업작품으로 제작했으며, 실제 서비스 형태의 포트폴리오라는 콘셉트를 구현했습니다. 기획부터 프론트엔드까지 전반적인 구조 설계 경험을 쌓았습니다.",
+    teamInfo: [
+      { role: "백엔드", count: 2 },
+      { role: "AI", count: 1 },
+      { role: "프론트엔드", count: 2 },
+    ],
   },
   {
     id: "ai-face-asymmetry",
@@ -154,6 +233,41 @@ export const projects: Project[] = [
       "데이터 구조를 먼저 이해하고 UI를 설계하면, 이후 기능 확장(히스토리, 공유, 비교 등)에 훨씬 유리하다는 것을 배웠습니다.",
     ],
     stack: ["React 또는 Next.js", "TypeScript", "CSS / Tailwind"],
+    // 상세 페이지용 데이터
+    overview:
+      "AI 분석 결과를 사용자가 직관적으로 이해할 수 있도록 시각화에 집중한 프론트엔드 프로젝트입니다.",
+    images: [
+      {
+        title: "분석 시작 화면",
+        description:
+          "사용자가 별도 설명 없이도 바로 분석을 시작할 수 있도록 최소한의 UI로 구성했습니다.",
+        src: "/projects/ai-face/start.jpg",
+      },
+      {
+        title: "분석 진행 화면",
+        description:
+          "분석 대기 중 이탈을 방지하기 위해 진행 상태를 명확하게 전달하도록 설계했습니다.",
+        src: "/projects/ai-face/loading.jpg",
+      },
+      {
+        title: "분석 결과 화면",
+        description:
+          "수치만 나열하는 대신, 시각적인 요소를 활용해 결과를 한눈에 이해할 수 있도록 구성했습니다.",
+        src: "/projects/ai-face/result.jpg",
+      },
+    ],
+    myRoleSummary: [
+      "이미지 업로드부터 결과 화면까지 전체 UX 설계",
+      "AI 분석 결과를 시각화하는 UI 구현",
+      "사용자 이해도를 높이기 위한 화면 구성 개선",
+    ],
+    resultSummary:
+      "프론트엔드 단독 구현 프로젝트로, 기술 결과를 사용자 관점으로 풀어낸 경험을 쌓았습니다. UX 중심의 UI 설계 역량을 강화했습니다.",
+    teamInfo: [
+      { role: "DevOps", count: 1 },
+      { role: "AI", count: 1 },
+      { role: "프론트엔드", count: 1 },
+    ],
   },
 ];
 
